@@ -62,6 +62,8 @@ public class Interfaz extends JFrame {
 	public static JTextField textField_5;
 	public static JPasswordField passwordField;
 	public static JPasswordField passwordField_1;
+	public DatosUsuario data = new DatosUsuario();
+	private boolean estaLogueado = false;
 
 	/**
 	 * Launch the application.
@@ -189,10 +191,17 @@ public class Interfaz extends JFrame {
 		JButton btnDarDeAlta = new JButton("Dar de alta");
 		btnDarDeAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			if (data.agregarUsuario()==1){
+			JOptionPane.showMessageDialog(null, "Felicitaciones, usted es un nuevo usuario de la página");
+			estaLogueado = true;
 			contentPane.removeAll();				
 			contentPane.add(PanelCatalogo);
 			contentPane.repaint();
 			contentPane.revalidate();
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Ese nombre de usuario ya está en uso");
+			}
 			}
 		});
 		btnDarDeAlta.setBounds(461, 368, 103, 23);
@@ -245,12 +254,12 @@ public class Interfaz extends JFrame {
 		chckbxRecordar.setBounds(180, 266, 235, 23);
 		panel_7.add(chckbxRecordar);
 		
-		final DatosUsuario data = new DatosUsuario();
 		
 		JButton btnIngresar = new JButton("Ingresar");
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (data.probarPass()==1){
+				estaLogueado = true;
 				contentPane.removeAll();				
 				contentPane.add(PanelCatalogo);
 				contentPane.repaint();
@@ -396,6 +405,7 @@ public class Interfaz extends JFrame {
 		JButton btnAtrs_2 = new JButton("Atr\u00E1s");
 		btnAtrs_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				estaLogueado = false;
 				contentPane.removeAll();				
 				contentPane.add(PanelInicio);
 				contentPane.repaint();
@@ -465,6 +475,22 @@ public class Interfaz extends JFrame {
 		panel_3.add(button_4);
 		
 		JButton button_5 = new JButton("Comprar");
+		button_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(estaLogueado){
+					contentPane.removeAll();				
+					contentPane.add(PanelConfirmar);
+					contentPane.repaint();
+					contentPane.revalidate();
+				}
+				else{
+					contentPane.removeAll();				
+					contentPane.add(PanelNoIngreso);
+					contentPane.repaint();
+					contentPane.revalidate();
+				}
+			}
+		});
 		button_5.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		button_5.setBounds(359, 318, 179, 49);
 		panel_3.add(button_5);
@@ -529,6 +555,22 @@ public class Interfaz extends JFrame {
 		panel_4.add(button_6);
 		
 		JButton button_7 = new JButton("Comprar");
+		button_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(estaLogueado){
+					contentPane.removeAll();				
+					contentPane.add(PanelConfirmar);
+					contentPane.repaint();
+					contentPane.revalidate();
+				}
+				else{
+					contentPane.removeAll();				
+					contentPane.add(PanelNoIngreso);
+					contentPane.repaint();
+					contentPane.revalidate();
+				}
+			}
+		});
 		button_7.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		button_7.setBounds(359, 318, 179, 49);
 		panel_4.add(button_7);
@@ -593,6 +635,22 @@ public class Interfaz extends JFrame {
 		panel_5.add(button_8);
 		
 		JButton button_9 = new JButton("Comprar");
+		button_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(estaLogueado){
+					contentPane.removeAll();				
+					contentPane.add(PanelConfirmar);
+					contentPane.repaint();
+					contentPane.revalidate();
+				}
+				else{
+					contentPane.removeAll();				
+					contentPane.add(PanelNoIngreso);
+					contentPane.repaint();
+					contentPane.revalidate();
+				}
+			}
+		});
 		button_9.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		button_9.setBounds(359, 318, 179, 49);
 		panel_5.add(button_9);
@@ -652,6 +710,22 @@ public class Interfaz extends JFrame {
 		PanelUnited.add(btnAtrs_1);
 		
 		JButton btnComprar = new JButton("Comprar");
+		btnComprar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(estaLogueado){
+					contentPane.removeAll();				
+					contentPane.add(PanelConfirmar);
+					contentPane.repaint();
+					contentPane.revalidate();
+				}
+				else{
+					contentPane.removeAll();				
+					contentPane.add(PanelNoIngreso);
+					contentPane.repaint();
+					contentPane.revalidate();
+				}
+			}
+		});
 		btnComprar.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnComprar.setBounds(359, 318, 179, 49);
 		PanelUnited.add(btnComprar);
@@ -752,6 +826,14 @@ public class Interfaz extends JFrame {
 		textField_4.setColumns(10);
 		
 		JButton btnAtrs_4 = new JButton("Atr\u00E1s");
+		btnAtrs_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contentPane.removeAll();				
+				contentPane.add(PanelCatalogo);
+				contentPane.repaint();
+				contentPane.revalidate();
+			}
+		});
 		btnAtrs_4.setBounds(10, 368, 89, 23);
 		PanelConfirmar.add(btnAtrs_4);
 		
