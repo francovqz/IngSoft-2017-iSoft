@@ -6,5 +6,4 @@ public class Principal {
 		Interfaz nuevaVentana = new Interfaz();
 		nuevaVentana.setVisible(true);
 	}
-
 }

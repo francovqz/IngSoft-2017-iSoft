@@ -57,14 +57,17 @@ public class Interfaz extends JFrame {
 	private JPanel PanelConfirmar;
 	public static JTextField textField;
 	public static JTextField textField_2;
-	public static JTextField txtCamisetaLiverpoolTemporada;
-	public static JTextField textField_4;
-	public static JTextField textField_5;
+	public static JTextField txtTarjeta;
 	public static JPasswordField passwordField;
 	public static JPasswordField passwordField_1;
 	public DatosUsuario data = new DatosUsuario();
 	private boolean estaLogueado = false;
-
+	private int tipoCamiseta;
+	private String talleCamiseta;
+	private String cantidadCamisetas;
+	//private DatosStock stock;
+	private DatosStock stock = new DatosStock();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -446,7 +449,7 @@ public class Interfaz extends JFrame {
 		
 		JComboBox comboBox_2 = new JComboBox();
 		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"S", "M", "L"}));
-		comboBox_2.setBounds(428, 200, 65, 20);
+		comboBox_2.setBounds(428, 200, 46, 20);
 		panel_3.add(comboBox_2);
 		
 		JLabel label_6 = new JLabel("Talle");
@@ -455,7 +458,7 @@ public class Interfaz extends JFrame {
 		
 		JComboBox comboBox_3 = new JComboBox();
 		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4"}));
-		comboBox_3.setBounds(428, 251, 65, 20);
+		comboBox_3.setBounds(428, 251, 47, 20);
 		panel_3.add(comboBox_3);
 		
 		JLabel label_7 = new JLabel("Cantidad");
@@ -478,6 +481,9 @@ public class Interfaz extends JFrame {
 		button_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(estaLogueado){
+					tipoCamiseta = 1;
+					talleCamiseta = comboBox_2.getSelectedItem().toString();
+					cantidadCamisetas = comboBox_3.getSelectedItem().toString();
 					contentPane.removeAll();				
 					contentPane.add(PanelConfirmar);
 					contentPane.repaint();
@@ -526,7 +532,7 @@ public class Interfaz extends JFrame {
 		
 		JComboBox comboBox_4 = new JComboBox();
 		comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"S", "M", "L"}));
-		comboBox_4.setBounds(428, 200, 64, 20);
+		comboBox_4.setBounds(428, 200, 46, 20);
 		panel_4.add(comboBox_4);
 		
 		JLabel label_10 = new JLabel("Talle");
@@ -535,7 +541,7 @@ public class Interfaz extends JFrame {
 		
 		JComboBox comboBox_5 = new JComboBox();
 		comboBox_5.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4"}));
-		comboBox_5.setBounds(428, 251, 64, 20);
+		comboBox_5.setBounds(428, 251, 46, 20);
 		panel_4.add(comboBox_5);
 		
 		JLabel label_11 = new JLabel("Cantidad");
@@ -558,6 +564,9 @@ public class Interfaz extends JFrame {
 		button_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(estaLogueado){
+					tipoCamiseta = 2;
+					talleCamiseta = comboBox_4.getSelectedItem().toString();
+					cantidadCamisetas = comboBox_5.getSelectedItem().toString();
 					contentPane.removeAll();				
 					contentPane.add(PanelConfirmar);
 					contentPane.repaint();
@@ -606,7 +615,7 @@ public class Interfaz extends JFrame {
 		
 		JComboBox comboBox_6 = new JComboBox();
 		comboBox_6.setModel(new DefaultComboBoxModel(new String[] {"S", "M", "L"}));
-		comboBox_6.setBounds(428, 200, 60, 20);
+		comboBox_6.setBounds(428, 200, 46, 20);
 		panel_5.add(comboBox_6);
 		
 		JLabel label_15 = new JLabel("Talle");
@@ -615,7 +624,7 @@ public class Interfaz extends JFrame {
 		
 		JComboBox comboBox_7 = new JComboBox();
 		comboBox_7.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4"}));
-		comboBox_7.setBounds(428, 251, 60, 20);
+		comboBox_7.setBounds(428, 251, 46, 20);
 		panel_5.add(comboBox_7);
 		
 		JLabel label_16 = new JLabel("Cantidad");
@@ -638,6 +647,9 @@ public class Interfaz extends JFrame {
 		button_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(estaLogueado){
+					tipoCamiseta = 3;
+					talleCamiseta = comboBox_6.getSelectedItem().toString();
+					cantidadCamisetas = comboBox_7.getSelectedItem().toString();
 					contentPane.removeAll();				
 					contentPane.add(PanelConfirmar);
 					contentPane.repaint();
@@ -713,6 +725,9 @@ public class Interfaz extends JFrame {
 		btnComprar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(estaLogueado){
+					tipoCamiseta = 4;
+					talleCamiseta = comboBox.getSelectedItem().toString();
+					cantidadCamisetas = comboBox_1.getSelectedItem().toString();
 					contentPane.removeAll();				
 					contentPane.add(PanelConfirmar);
 					contentPane.repaint();
@@ -806,24 +821,10 @@ public class Interfaz extends JFrame {
 		lblUstedEstaPor.setBounds(35, 36, 230, 30);
 		PanelConfirmar.add(lblUstedEstaPor);
 		
-		txtCamisetaLiverpoolTemporada = new JTextField();
-		txtCamisetaLiverpoolTemporada.setText("Camiseta Liverpool temporada 17/18");
-		txtCamisetaLiverpoolTemporada.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		txtCamisetaLiverpoolTemporada.setBounds(35, 98, 374, 47);
-		PanelConfirmar.add(txtCamisetaLiverpoolTemporada);
-		txtCamisetaLiverpoolTemporada.setColumns(10);
-		
 		JLabel label_3 = new JLabel("$");
 		label_3.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		label_3.setBounds(425, 102, 46, 35);
 		PanelConfirmar.add(label_3);
-		
-		textField_4 = new JTextField();
-		textField_4.setText("1200");
-		textField_4.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField_4.setBounds(446, 105, 86, 32);
-		PanelConfirmar.add(textField_4);
-		textField_4.setColumns(10);
 		
 		JButton btnAtrs_4 = new JButton("Atr\u00E1s");
 		btnAtrs_4.addActionListener(new ActionListener() {
@@ -845,10 +846,10 @@ public class Interfaz extends JFrame {
 		lblIngreseLaSucursal.setBounds(35, 253, 191, 14);
 		PanelConfirmar.add(lblIngreseLaSucursal);
 		
-		textField_5 = new JTextField();
-		textField_5.setBounds(236, 209, 174, 20);
-		PanelConfirmar.add(textField_5);
-		textField_5.setColumns(10);
+		txtTarjeta = new JTextField();
+		txtTarjeta.setBounds(236, 209, 174, 20);
+		PanelConfirmar.add(txtTarjeta);
+		txtTarjeta.setColumns(10);
 		
 		JComboBox comboBox_8 = new JComboBox();
 		comboBox_8.setModel(new DefaultComboBoxModel(new String[] {"Sucursal Centro (Cba)", "Sucursal Velez Sarsfield (Cba)", "Sucursal Rio Cuarto", "Sucursal Villa Maria"}));
@@ -856,11 +857,63 @@ public class Interfaz extends JFrame {
 		PanelConfirmar.add(comboBox_8);
 		
 		JButton btnNewButton_3 = new JButton("Confirmar");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int cantidad1;
+				int cantidad2 = 0;
+				int cantidad3 = Integer.parseInt(cantidadCamisetas);
+				switch (talleCamiseta){
+				case "S":
+					cantidad2 = 0;
+				case "M":
+					cantidad2 = 1;
+				case "L":
+					cantidad2 = 2;
+				}
+				cantidad1 = stock.getUnStock(tipoCamiseta-1, cantidad2);
+				cantidad1 = cantidad1 - cantidad3;
+				stock.setStock(tipoCamiseta-1, cantidad2, cantidad1);
+				
+				JOptionPane.showMessageDialog(null, "Felicidades!! Su producto estará llegando entre 15/20 días a la sucursal OCA");
+
+				contentPane.removeAll();				
+				contentPane.add(PanelCatalogo);
+				contentPane.repaint();
+				contentPane.revalidate();
+			}
+		});
 		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnNewButton_3.setBounds(407, 330, 140, 47);
 		PanelConfirmar.add(btnNewButton_3);
 		
-		////////////////////////////////////////// Panel Felicidades /////////////////////////////////////////////////////////////////
+		JLabel lblNewLabel_2 = new JLabel("Camiseta Chelsea temporada 13/14");
+		JLabel lblNewLabel_3 = new JLabel("1300");
 		
+		/*switch (tipoCamiseta){
+		case 1:
+			lblNewLabel_2.setText("Camiseta Chelsea temporada 13/14");
+			lblNewLabel_3.setText("1300");
+			break;
+		case 2:
+			lblNewLabel_2.setText("Camiseta Liverpool temporada 16/17");
+			lblNewLabel_3.setText("1200");
+			break;
+		case 3:
+			lblNewLabel_2.setText("Camiseta Man City temp 15/16");
+			lblNewLabel_3.setText("1400");
+			break;
+		case 4:
+			lblNewLabel_2.setText("Camiseta Man United temp 13/14");
+			lblNewLabel_3.setText("1350");
+			break;
+		  }*/
+		
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblNewLabel_2.setBounds(35, 98, 380, 47);
+		PanelConfirmar.add(lblNewLabel_2);
+		
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblNewLabel_3.setBounds(448, 108, 85, 27);
+		PanelConfirmar.add(lblNewLabel_3);
 	}
 }

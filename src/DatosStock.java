@@ -1,13 +1,21 @@
 
 public class DatosStock {
-	private int [][] stock = {{10,10,10}, {10, 10, 10}, {10,10,10}, {10,10,10}};
+	private int [][] stock = {{10,10,10,10}, {10,10,10,10}, {10,10,10,10}};
 	private static DatosStock uniqueInstance = null;
 	
-	private DatosStock(){ // Patron Singleton 
+	/*
+	 * private DatosStock(){ // Patron Singleton 
+	}*/
+	
+	public DatosStock(){
 	}
 	
 	public int[][] getStock(){
 		return stock;
+	}
+	
+	public int getUnStock(int fila, int columna){
+		return stock[fila][columna];
 	}
 	
 	public void setStock(int fila, int columna, int nuevaCantidad){
