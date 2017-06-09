@@ -1,6 +1,6 @@
 
 public class DatosStock {
-	private int [][] stock = {{10,10,10,10}, {10,10,10,10}, {10,10,10,10}};
+	private int [][] stock = {{3,3,3}, {3,3,3}, {3,3,3}, {3,3,3}}; //{{3,3,3}, {3,3,3}, {3,3,3}, {3,3,3}};
 	private static DatosStock uniqueInstance = null;
 	
 	/*

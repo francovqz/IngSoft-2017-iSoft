@@ -11,7 +11,7 @@ public class DatosUsuario {
 	public DatosUsuario()
 	{
 		listaDatos.clear();
-		listaDatos.put("administrador", "administrador");
+		//listaDatos.put("administrador", "administrador");
 	}
 	
 	public int probarPass(){
@@ -33,7 +33,10 @@ public class DatosUsuario {
 				}
 			}
 		}
-		return 0;
+		if (usuario.equals("administrador" ) && contraseña.equals("administrador") )
+			return 2;
+		else 
+			return 0;
 	}
 	
 	public int agregarUsuario(){

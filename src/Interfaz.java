@@ -39,6 +39,13 @@ import javax.swing.JTextPane;
 
 import java.awt.SystemColor;
 import javax.swing.JPasswordField;
+import javax.swing.DropMode;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class Interfaz extends JFrame {
@@ -55,6 +62,7 @@ public class Interfaz extends JFrame {
 	private JPanel SobreNosotros;
 	private JPanel PanelNoIngreso;
 	private JPanel PanelConfirmar;
+	private JPanel PanelAdmin;
 	public static JTextField textField;
 	public static JTextField textField_2;
 	public static JTextField txtTarjeta;
@@ -67,6 +75,7 @@ public class Interfaz extends JFrame {
 	private String cantidadCamisetas;
 	//private DatosStock stock;
 	private DatosStock stock = new DatosStock();
+	private JTable table;
 	
 	/**
 	 * Launch the application.
@@ -262,11 +271,18 @@ public class Interfaz extends JFrame {
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (data.probarPass()==1){
-				estaLogueado = true;
-				contentPane.removeAll();				
-				contentPane.add(PanelCatalogo);
-				contentPane.repaint();
-				contentPane.revalidate();
+					estaLogueado = true;
+					contentPane.removeAll();				
+					contentPane.add(PanelCatalogo);
+					contentPane.repaint();
+					contentPane.revalidate();
+				}
+				else if(data.probarPass()==2){
+					estaLogueado = true;
+					contentPane.removeAll();				
+					contentPane.add(PanelAdmin);
+					contentPane.repaint();
+					contentPane.revalidate();
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Error, usuario o contraseña incorrectos");
@@ -915,5 +931,133 @@ public class Interfaz extends JFrame {
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		lblNewLabel_3.setBounds(448, 108, 85, 27);
 		PanelConfirmar.add(lblNewLabel_3);
+		
+		//////////////////////////////////////////Panel Admin /////////////////////////////////////////////////////////////////
+		
+		PanelAdmin = new JPanel();
+		contentPane.add(PanelAdmin, "name_44137247085231");
+		
+		JScrollPane scrollPane = new JScrollPane();
+		
+		JLabel lblControlDeInventario = new JLabel("Control de Inventario");
+		lblControlDeInventario.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		
+		JLabel lblProducto = new JLabel("Producto");
+		lblProducto.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		JLabel lblTalle_1 = new JLabel("Talle");
+		lblTalle_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		JButton btnActualizarCantidad = new JButton("Actualizar\r\n cantidad");
+		
+		btnActualizarCantidad.addActionListener(new ActionListener() {	
+			public void actionPerformed(ActionEvent arg0) {
+				//aca hay que implementar
+			}
+		});
+		btnActualizarCantidad.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
+		JComboBox comboProduct = new JComboBox();
+		comboProduct.setModel(new DefaultComboBoxModel(new String[] {"", "City", "United ", "Liverpool", "Arsenal"}));
+		
+		JComboBox comboSize = new JComboBox();
+		comboSize.setModel(new DefaultComboBoxModel(new String[] {"", "S", "M", "L"}));
+		
+		JLabel lblCantidad_1 = new JLabel("Cantidad");
+		lblCantidad_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		JComboBox comboCant = new JComboBox();
+		comboCant.setModel(new DefaultComboBoxModel(new String[] {"", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}));
+		GroupLayout gl_PanelAdmin = new GroupLayout(PanelAdmin);
+		gl_PanelAdmin.setHorizontalGroup(
+			gl_PanelAdmin.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_PanelAdmin.createSequentialGroup()
+					.addGap(108)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 366, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(100, Short.MAX_VALUE))
+				.addGroup(gl_PanelAdmin.createSequentialGroup()
+					.addGroup(gl_PanelAdmin.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_PanelAdmin.createSequentialGroup()
+							.addContainerGap(38, Short.MAX_VALUE)
+							.addGroup(gl_PanelAdmin.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblTalle_1, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblCantidad_1, GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)))
+						.addGroup(gl_PanelAdmin.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblProducto, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)))
+					.addGap(18)
+					.addGroup(gl_PanelAdmin.createParallelGroup(Alignment.TRAILING, false)
+						.addGroup(gl_PanelAdmin.createSequentialGroup()
+							.addGap(43)
+							.addComponent(lblControlDeInventario, GroupLayout.PREFERRED_SIZE, 305, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(101, Short.MAX_VALUE))
+						.addGroup(gl_PanelAdmin.createSequentialGroup()
+							.addGroup(gl_PanelAdmin.createParallelGroup(Alignment.LEADING)
+								.addComponent(comboProduct, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_PanelAdmin.createSequentialGroup()
+									.addGroup(gl_PanelAdmin.createParallelGroup(Alignment.TRAILING, false)
+										.addComponent(comboCant, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(comboSize, 0, 45, Short.MAX_VALUE))
+									.addGap(170)
+									.addComponent(btnActualizarCantidad)))
+							.addGap(80))))
+		);
+		gl_PanelAdmin.setVerticalGroup(
+			gl_PanelAdmin.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_PanelAdmin.createSequentialGroup()
+					.addGap(34)
+					.addComponent(lblControlDeInventario, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_PanelAdmin.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_PanelAdmin.createSequentialGroup()
+							.addGap(33)
+							.addGroup(gl_PanelAdmin.createParallelGroup(Alignment.LEADING)
+								.addComponent(comboProduct, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblProducto, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
+							.addGap(12)
+							.addComponent(lblTalle_1, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_PanelAdmin.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblCantidad_1, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+								.addComponent(comboCant, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+							.addGap(33))
+						.addGroup(Alignment.TRAILING, gl_PanelAdmin.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnActualizarCantidad, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+							.addGap(49))))
+				.addGroup(Alignment.LEADING, gl_PanelAdmin.createSequentialGroup()
+					.addGap(294)
+					.addComponent(comboSize, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(76, Short.MAX_VALUE))
+		);
+		
+		DefaultTableModel modelo = new DefaultTableModel();
+		JTable table = new JTable(modelo);  
+		table.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"City", new Integer(3), new Integer(3), new Integer(3)},
+				{"United", new Integer(3), new Integer(3), new Integer(3)},
+				{"Liverpool", new Integer(3), new Integer(3), new Integer(3)},
+				{"Arsenal", new Integer(3), new Integer(3), new Integer(3)},
+			},
+			new String[] {
+				"Producto", "S", "M", "L"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, Integer.class, Integer.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		scrollPane.setViewportView(table);
+		PanelAdmin.setLayout(gl_PanelAdmin);
+		
+		
+		//((DefaultTableModel) table.getModel()).setValueAt(valor, fila, columna);
+
 	}
 }
