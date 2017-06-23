@@ -8,16 +8,21 @@ import javax.swing.JPanel;
 
 public class Modelo {
 
-	List<Usuario> usuarios = new ArrayList<Usuario>();
-	BdDStock datostock = new BdDStock();
-	Boolean estaLogueado = false;
-	Producto camisetaChelsea;
-	Producto camisetaLiverpool;
-	Producto camisetaCity;
-	Producto camisetaUnited;
-	
+	private Controlador miControlador;
+	private List<Usuario> usuarios = new ArrayList<Usuario>();
+	private BdDStock datostock = new BdDStock();
+	private Boolean estaLogueado = false;
+	private Producto camisetaChelsea;
+	private Producto camisetaLiverpool;
+	private Producto camisetaCity;
+	private Producto camisetaUnited;
+	private int numProducto = 0;
+	private String talleProducto;
+	private String cantidadProducto;
 	
 	public Modelo(){
+		
+		miControlador = new Controlador();
 		// Inicializo los productos
 		Image img0 = new ImageIcon(getClass().getResource("camisetaa1.png")).getImage();
 		camisetaChelsea = new Producto("Camiseta Chelsea temporada 13/14",img0,"$ 1400");
@@ -29,25 +34,32 @@ public class Modelo {
 		camisetaUnited = new Producto("Camiseta Manchester United temp 16/17",img3,"$ 1350");
 	}
 	
-	public int agregarUsuario(){
-		String user = Interfaz.textUsuarioAlta.getText();
-		String password = Interfaz.textPasswordAlta.getText();
+	public void setControlador(Controlador controlador){
+		miControlador = controlador;
+	}
+	
+	public Controlador getControlador(){
+		return miControlador;
+	}
+	
+	public void agregarUsuario(String user, String password){
 		
+		Usuario userr = new Usuario(user, password);
+		usuarios.add(userr);
+		estaLogueado = true;
+	}
+	
+	public int validarUsuario(String user, String password){
 		for (Usuario usuario: usuarios){
 			if(user.equals(usuario.getId())){
 				return 0;
 			}
 		}
 		
-		Usuario userr = new Usuario(user, password);
-		usuarios.add(userr);
-		estaLogueado = true;
 		return 1;
 	}
 	
-	public int probarPass(){
-		String user = Interfaz.textUsuarioLog.getText();
-		String password = Interfaz.textPasswordLog.getText();
+	public int validarLogueo(String user, String password){
 		
 		for (Usuario usuario: usuarios){
 			if(user.equals(usuario.getId())){
@@ -98,5 +110,37 @@ public class Modelo {
 		cantidad1 = datostock.getUnStock(num, cantidad2);
 		cantidad1 = cantidad1 - cantidad3;
 		datostock.setStock(num, cantidad2, cantidad1);
+	}
+	
+	public void setNumProducto(int i){
+		numProducto = i;
+	}
+	
+	public int getNumProducto(){
+		return numProducto;
+	}
+	
+	public void setTalleProducto(String s){
+		talleProducto = s;
+	}
+	
+	public String getTalleProducto(){
+		return talleProducto;
+	}
+	
+	public void setCantidadProducto(String s){
+		cantidadProducto = s;
+	}
+	
+	public String getCantidadProducto(){
+		return cantidadProducto;
+	}
+	
+	public void setLogueo(Boolean v){
+		estaLogueado = v;
+	}
+	
+	public Boolean getLogueo(){
+		return estaLogueado;
 	}
 }

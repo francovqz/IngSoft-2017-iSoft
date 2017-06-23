@@ -51,7 +51,7 @@ import java.awt.event.MouseEvent;
 
 public class Interfaz extends JFrame {
 
-	private Modelo modelo;
+	private Controlador miControlador;
 	
 	private JPanel contentPane;
 	private JPanel PanelInicio;
@@ -76,33 +76,14 @@ public class Interfaz extends JFrame {
 	private static JLabel labelTitulo;
 	private static JLabel labelPrecio;
 	
-	private int numProducto = 0;
-	private String talleProducto;
-	private String cantidadProducto;
 	
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Interfaz frame = new Interfaz();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
+	 /* Create the frame.
 	 */
+	
 	public Interfaz() {
 		
-		modelo = new Modelo();
+		miControlador = new Controlador();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 450);
@@ -200,7 +181,11 @@ public class Interfaz extends JFrame {
 		JButton btnDarDeAlta = new JButton("Dar de alta");
 		btnDarDeAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			if (modelo.agregarUsuario()==1){
+				
+			String user = textUsuarioAlta.getText();
+			String password = textPasswordAlta.getText();
+			
+			if (miControlador.registrarUsuario(user, password)==1){
 			JOptionPane.showMessageDialog(null, "Felicitaciones, usted es un nuevo usuario de la página");
 			contentPane.removeAll();				
 			contentPane.add(PanelCatalogo);
@@ -265,13 +250,17 @@ public class Interfaz extends JFrame {
 		JButton btnIngresar = new JButton("Ingresar");
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (modelo.probarPass()==1){
+				
+				String user = Interfaz.textUsuarioLog.getText();
+				String password = Interfaz.textPasswordLog.getText();
+				
+				if (miControlador.probarPass(user, password)==1){
 					contentPane.removeAll();				
 					contentPane.add(PanelCatalogo);
 					contentPane.repaint();
 					contentPane.revalidate();
 				}
-				else if(modelo.probarPass()==2){
+				else if(miControlador.probarPass(user, password)==2){
 					contentPane.removeAll();				
 					contentPane.add(PanelAdmin);
 					contentPane.repaint();
@@ -361,7 +350,7 @@ public class Interfaz extends JFrame {
 		JButton btnNewButton = new JButton("Ver producto");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				numProducto = 0;
+				miControlador.numeroDeProducto(0);
 				actualizarPanelDescripcion();
 				contentPane.removeAll();				
 				contentPane.add(PanelDescripcion);
@@ -375,7 +364,7 @@ public class Interfaz extends JFrame {
 		JButton button = new JButton("Ver producto");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				numProducto = 1;
+				miControlador.numeroDeProducto(1);
 				actualizarPanelDescripcion();
 				contentPane.removeAll();				
 				contentPane.add(PanelDescripcion);
@@ -389,7 +378,7 @@ public class Interfaz extends JFrame {
 		JButton button_2 = new JButton("Ver producto");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				numProducto = 2;
+				miControlador.numeroDeProducto(2);
 				actualizarPanelDescripcion();
 				contentPane.removeAll();				
 				contentPane.add(PanelDescripcion);
@@ -403,7 +392,7 @@ public class Interfaz extends JFrame {
 		JButton button_3 = new JButton("Ver producto");
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				numProducto = 3;
+				miControlador.numeroDeProducto(3);
 				actualizarPanelDescripcion();
 				contentPane.removeAll();				
 				contentPane.add(PanelDescripcion);
@@ -422,7 +411,7 @@ public class Interfaz extends JFrame {
 		JButton btnAtrs_2 = new JButton("Atr\u00E1s");
 		btnAtrs_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				modelo.estaLogueado = false;
+				miControlador.desloguearse();
 				contentPane.removeAll();				
 				contentPane.add(PanelInicio);
 				contentPane.repaint();
@@ -675,7 +664,7 @@ public class Interfaz extends JFrame {
              				break;
 	            }
 				table.setValueAt((Integer) dif, nrow, ncol); //test de si la columna es nula
-				modelo.getBaseDeDatos().setStock(nrow, ncol, dif);
+				miControlador.getModelo().getBaseDeDatos().setStock(nrow, ncol, dif);
 			}
 		});
 		btnActualizarCantidad.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -686,19 +675,19 @@ public class Interfaz extends JFrame {
 		PanelDescripcion.removeAll();
 		
 		labelImagen = new JLabel("");
-		Image img8 = modelo.getProducto(numProducto).getImagen();
+		Image img8 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getImagen();
 		labelImagen.setIcon(new ImageIcon(img8));
 		labelImagen.setHorizontalAlignment(SwingConstants.CENTER);
 		labelImagen.setBounds(10, 67, 275, 300);
 		PanelDescripcion.add(labelImagen);
 		
-		String variable1 = modelo.getProducto(numProducto).getNombre();
+		String variable1 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getNombre();
 		labelTitulo = new JLabel(variable1);
 		labelTitulo.setFont(new Font("Tekton Pro", Font.PLAIN, 28));
 		labelTitulo.setBounds(23, 24, 515, 32);
 		PanelDescripcion.add(labelTitulo);
 		
-		String variable2 = modelo.getProducto(numProducto).getPrecio();
+		String variable2 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getPrecio();
 		labelPrecio = new JLabel(variable2);
 		labelPrecio.setFont(new Font("Tahoma", Font.PLAIN, 34));
 		labelPrecio.setBounds(343, 106, 132, 54);
@@ -737,9 +726,9 @@ public class Interfaz extends JFrame {
 		JButton btnComprar = new JButton("Comprar");
 		btnComprar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(modelo.estaLogueado){
-					talleProducto = comboBox.getSelectedItem().toString();
-					cantidadProducto = comboBox_1.getSelectedItem().toString();
+				if(miControlador.getModelo().getLogueo()){
+					miControlador.getModelo().setTalleProducto(comboBox.getSelectedItem().toString());
+					miControlador.getModelo().setCantidadProducto(comboBox_1.getSelectedItem().toString());
 					actualizarPanelConfirmar();
 					contentPane.removeAll();				
 					contentPane.add(PanelConfirmar);
@@ -784,21 +773,21 @@ public class Interfaz extends JFrame {
 		PanelConfirmar.add(btnAtrs_4);
 		
 		JLabel lblIngreseSuN = new JLabel("Ingrese su N\u00BA de tarjeta de cr\u00E9dito :");
-		lblIngreseSuN.setBounds(35, 212, 191, 14);
+		lblIngreseSuN.setBounds(35, 212, 201, 14);
 		PanelConfirmar.add(lblIngreseSuN);
 		
 		JLabel lblIngreseLaSucursal = new JLabel("Ingrese la sucursal OCA de destino :");
-		lblIngreseLaSucursal.setBounds(35, 253, 191, 14);
+		lblIngreseLaSucursal.setBounds(35, 253, 208, 14);
 		PanelConfirmar.add(lblIngreseLaSucursal);
 		
 		txtTarjeta = new JTextField();
-		txtTarjeta.setBounds(236, 209, 174, 20);
+		txtTarjeta.setBounds(256, 209, 174, 20);
 		PanelConfirmar.add(txtTarjeta);
 		txtTarjeta.setColumns(10);
 		
 		JComboBox comboBox_8 = new JComboBox();
 		comboBox_8.setModel(new DefaultComboBoxModel(new String[] {"Sucursal Centro (Cba)", "Sucursal Velez Sarsfield (Cba)", "Sucursal Rio Cuarto", "Sucursal Villa Maria"}));
-		comboBox_8.setBounds(236, 250, 173, 20);
+		comboBox_8.setBounds(256, 250, 173, 20);
 		PanelConfirmar.add(comboBox_8);
 		
 		JButton btnNewButton_3 = new JButton("Confirmar");
@@ -818,7 +807,7 @@ public class Interfaz extends JFrame {
 				cantidad1 = modelo.getBaseDeDatos().getUnStock(numProducto, cantidad2);
 				cantidad1 = cantidad1 - cantidad3;
 				modelo.getBaseDeDatos().setStock(numProducto, cantidad2, cantidad1);*/
-				modelo.actualizarBaseDeDatos(numProducto, talleProducto, cantidadProducto);
+				miControlador.getModelo().actualizarBaseDeDatos(miControlador.getModelo().getNumProducto(), miControlador.getModelo().getTalleProducto(), miControlador.getModelo().getCantidadProducto());
 				JOptionPane.showMessageDialog(null, "Felicidades!! Su producto estará llegando entre 15/20 días a la sucursal OCA");
 
 				contentPane.removeAll();				
@@ -831,19 +820,27 @@ public class Interfaz extends JFrame {
 		btnNewButton_3.setBounds(407, 330, 140, 47);
 		PanelConfirmar.add(btnNewButton_3);
 		
-		String variable1 = modelo.getProducto(numProducto).getNombre();
+		String variable1 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getNombre();
 		textField = new JTextField(variable1);
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		textField.setBounds(35, 100, 375, 37);
 		PanelConfirmar.add(textField);
 		textField.setColumns(10);
 		
-		String variable2 = modelo.getProducto(numProducto).getPrecio();
+		String variable2 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getPrecio();
 		textField_1 = new JTextField(variable2);
 		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		textField_1.setBounds(461, 102, 86, 35);
 		PanelConfirmar.add(textField_1);
 		textField_1.setColumns(10);
 		
+	}
+	
+	public void setControlador(Controlador controlador){
+		miControlador = controlador;
+	}
+	
+	public Controlador getControlador(){
+		return miControlador;
 	}
 }
