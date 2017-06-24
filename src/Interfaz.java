@@ -75,6 +75,7 @@ public class Interfaz extends JFrame {
 	private static JLabel labelImagen;
 	private static JLabel labelTitulo;
 	private static JLabel labelPrecio;
+	private static JTable table;
 	
 	 /* Create the frame.
 	 */
@@ -258,6 +259,7 @@ public class Interfaz extends JFrame {
 					contentPane.revalidate();
 				}
 				else if(miControlador.probarPass(user, password)==2){
+					actualizarPanelAdmin();
 					contentPane.removeAll();				
 					contentPane.add(PanelAdmin);
 					contentPane.repaint();
@@ -474,6 +476,170 @@ public class Interfaz extends JFrame {
 		PanelAdmin = new JPanel();
 		contentPane.add(PanelAdmin, "name_44137247085231");
 		
+	}
+	
+	public void actualizarPanelDescripcion(){
+		PanelDescripcion.removeAll();
+		
+		labelImagen = new JLabel("");
+		Image img8 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getImagen();
+		labelImagen.setIcon(new ImageIcon(img8));
+		labelImagen.setHorizontalAlignment(SwingConstants.CENTER);
+		labelImagen.setBounds(10, 67, 275, 300);
+		PanelDescripcion.add(labelImagen);
+		
+		String variable1 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getNombre();
+		labelTitulo = new JLabel(variable1);
+		labelTitulo.setFont(new Font("Tekton Pro", Font.PLAIN, 28));
+		labelTitulo.setBounds(23, 24, 515, 32);
+		PanelDescripcion.add(labelTitulo);
+		
+		String variable2 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getPrecio();
+		labelPrecio = new JLabel(variable2);
+		labelPrecio.setFont(new Font("Tahoma", Font.PLAIN, 34));
+		labelPrecio.setBounds(343, 106, 132, 54);
+		PanelDescripcion.add(labelPrecio);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"S", "M", "L"}));
+		comboBox.setBounds(428, 200, 46, 20);
+		PanelDescripcion.add(comboBox);
+		
+		JLabel lblTalle = new JLabel("Talle");
+		lblTalle.setBounds(343, 203, 46, 14);
+		PanelDescripcion.add(lblTalle);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4"}));
+		comboBox_1.setBounds(428, 251, 47, 20);
+		PanelDescripcion.add(comboBox_1);
+		
+		JLabel lblCantidad = new JLabel("Cantidad");
+		lblCantidad.setBounds(343, 254, 58, 14);
+		PanelDescripcion.add(lblCantidad);
+		
+		JButton btnAtrs_1 = new JButton("Atr\u00E1s");
+		btnAtrs_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contentPane.removeAll();				
+				contentPane.add(PanelCatalogo);
+				contentPane.repaint();
+				contentPane.revalidate();
+			}
+		});
+		btnAtrs_1.setBounds(10, 368, 89, 23);
+		PanelDescripcion.add(btnAtrs_1);
+		
+		JButton btnComprar = new JButton("Comprar");
+		btnComprar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(miControlador.getModelo().getLogueo()){
+					if(miControlador.consultarStock(miControlador.getModelo().getNumProducto(),comboBox.getSelectedItem().toString(), comboBox_1.getSelectedItem().toString())){
+						miControlador.getModelo().setTalleProducto(comboBox.getSelectedItem().toString());
+						miControlador.getModelo().setCantidadProducto(comboBox_1.getSelectedItem().toString());
+						actualizarPanelConfirmar();
+						contentPane.removeAll();				
+						contentPane.add(PanelConfirmar);
+						contentPane.repaint();
+						contentPane.revalidate();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Por el momento no contamos con el Stock suficiente");
+					}
+				}
+				else{
+					contentPane.removeAll();				
+					contentPane.add(PanelNoIngreso);
+					contentPane.repaint();
+					contentPane.revalidate();
+				}
+			}
+		});
+		btnComprar.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnComprar.setBounds(359, 318, 179, 49);
+		PanelDescripcion.add(btnComprar);
+	}
+	
+	public void actualizarPanelConfirmar(){
+		PanelConfirmar.removeAll();
+		
+		JLabel lblUstedEstaPor = new JLabel("Usted esta por comprar :");
+		lblUstedEstaPor.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblUstedEstaPor.setBounds(35, 36, 230, 30);
+		PanelConfirmar.add(lblUstedEstaPor);
+		
+		JLabel label_3 = new JLabel("$");
+		label_3.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		label_3.setBounds(425, 102, 46, 35);
+		PanelConfirmar.add(label_3);
+		
+		JButton btnAtrs_4 = new JButton("Atr\u00E1s");
+		btnAtrs_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				contentPane.removeAll();				
+				contentPane.add(PanelCatalogo);
+				contentPane.repaint();
+				contentPane.revalidate();
+			}
+		});
+		btnAtrs_4.setBounds(10, 368, 89, 23);
+		PanelConfirmar.add(btnAtrs_4);
+		
+		JLabel lblIngreseSuN = new JLabel("Ingrese su N\u00BA de tarjeta de cr\u00E9dito :");
+		lblIngreseSuN.setBounds(35, 212, 201, 14);
+		PanelConfirmar.add(lblIngreseSuN);
+		
+		JLabel lblIngreseLaSucursal = new JLabel("Ingrese la sucursal OCA de destino :");
+		lblIngreseLaSucursal.setBounds(35, 253, 208, 14);
+		PanelConfirmar.add(lblIngreseLaSucursal);
+		
+		txtTarjeta = new JTextField();
+		txtTarjeta.setBounds(256, 209, 174, 20);
+		PanelConfirmar.add(txtTarjeta);
+		txtTarjeta.setColumns(10);
+		
+		JComboBox comboBox_8 = new JComboBox();
+		comboBox_8.setModel(new DefaultComboBoxModel(new String[] {"Sucursal Centro (Cba)", "Sucursal Velez Sarsfield (Cba)", "Sucursal Rio Cuarto", "Sucursal Villa Maria"}));
+		comboBox_8.setBounds(256, 250, 173, 20);
+		PanelConfirmar.add(comboBox_8);
+		
+		JButton btnNewButton_3 = new JButton("Confirmar");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+	
+				miControlador.getModelo().actualizarBaseDeDatos(miControlador.getModelo().getNumProducto(), miControlador.getModelo().getTalleProducto(), miControlador.getModelo().getCantidadProducto());
+		
+				JOptionPane.showMessageDialog(null, "Felicidades!! Su producto estará llegando entre 15/20 días a la sucursal OCA");
+
+				contentPane.removeAll();				
+				contentPane.add(PanelCatalogo);
+				contentPane.repaint();
+				contentPane.revalidate();
+			}
+		});
+		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnNewButton_3.setBounds(407, 330, 140, 47);
+		PanelConfirmar.add(btnNewButton_3);
+		
+		String variable1 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getNombre();
+		textField = new JTextField(variable1);
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		textField.setBounds(35, 100, 375, 37);
+		PanelConfirmar.add(textField);
+		textField.setColumns(10);
+		
+		String variable2 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getPrecio();
+		textField_1 = new JTextField(variable2);
+		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		textField_1.setBounds(461, 102, 86, 35);
+		PanelConfirmar.add(textField_1);
+		textField_1.setColumns(10);
+		
+	}
+	
+	public void actualizarPanelAdmin(){
+		PanelAdmin.removeAll();
+		
 		JScrollPane scrollPane = new JScrollPane();
 		
 		JLabel lblControlDeInventario = new JLabel("Control de Inventario");
@@ -488,7 +654,7 @@ public class Interfaz extends JFrame {
 		JButton btnActualizarCantidad = new JButton("Actualizar\r\n cantidad");
 		
 		JComboBox comboProduct = new JComboBox();
-		comboProduct.setModel(new DefaultComboBoxModel(new String[] {"", "City", "United", "Chelsea", "Liverpool"}));
+		comboProduct.setModel(new DefaultComboBoxModel(new String[] {"", "Chelsea", "Liverpool", "City", "United"}));
 		
 		JComboBox comboSize = new JComboBox();
 		comboSize.setModel(new DefaultComboBoxModel(new String[] {"", "S", "M", "L"}));
@@ -499,16 +665,16 @@ public class Interfaz extends JFrame {
 		Cantidad = new JTextField();
 		Cantidad.setColumns(10);
 		
-		JLabel lblCity = new JLabel("City");
+		JLabel lblCity = new JLabel("Chelsea");
 		lblCity.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		JLabel lblUnited = new JLabel("United");
+		JLabel lblUnited = new JLabel("Liverpool");
 		lblUnited.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		JLabel lblArsenal = new JLabel("Chelsea");
+		JLabel lblArsenal = new JLabel("City");
 		lblArsenal.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		JLabel lblLiverpool = new JLabel("Liverpool");
+		JLabel lblLiverpool = new JLabel("United");
 		lblLiverpool.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JButton btnNewButton_4 = new JButton("Atr\u00E1s");
@@ -610,17 +776,17 @@ public class Interfaz extends JFrame {
 		
 		
 		
-		DefaultTableModel modeloo = new DefaultTableModel();
-		JTable table = new JTable(modeloo);  
+		//DefaultTableModel modeloo = new DefaultTableModel();
+		table = new JTable();  
 		table.setRowHeight(30);
 		table.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		String[] columnas = new String[] {"S", "M", "L"};
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{3, 2, 1},
-				{3, 3, 3},
-				{3, 3, 3},
-				{3, 3, 3},
+				{miControlador.getModelo().getBaseDeDatos().getUnStock(0,0), miControlador.getModelo().getBaseDeDatos().getUnStock(0,1), miControlador.getModelo().getBaseDeDatos().getUnStock(0,2)},
+				{miControlador.getModelo().getBaseDeDatos().getUnStock(1,0), miControlador.getModelo().getBaseDeDatos().getUnStock(1,1), miControlador.getModelo().getBaseDeDatos().getUnStock(1,2)},
+				{miControlador.getModelo().getBaseDeDatos().getUnStock(2,0), miControlador.getModelo().getBaseDeDatos().getUnStock(2,1), miControlador.getModelo().getBaseDeDatos().getUnStock(2,2)},
+				{miControlador.getModelo().getBaseDeDatos().getUnStock(3,0), miControlador.getModelo().getBaseDeDatos().getUnStock(3,1), miControlador.getModelo().getBaseDeDatos().getUnStock(3,2)},
 			},
 			columnas) 
 		{
@@ -643,13 +809,13 @@ public class Interfaz extends JFrame {
 				int ncol = 0; //las tengo q inicializar si o si
 				int nrow = 0;
 				switch (product) {
-		            case "City":  		nrow = 0;
+		            case "Chelsea":  		nrow = 0;
 		                     	break;
-		            case "United":  	nrow = 1;
+		            case "Liverpool":  	nrow = 1;
                  				break;
-		            case "Chelsea": 	nrow = 2;
+		            case "City": 	nrow = 2;
                  				break;
-		            case "Liverpool":   nrow = 3;
+		            case "United":   nrow = 3;
                  				break;
 				}
 				switch (talle) {
@@ -665,166 +831,7 @@ public class Interfaz extends JFrame {
 			}
 		});
 		btnActualizarCantidad.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
 	}
-	
-	public void actualizarPanelDescripcion(){
-		PanelDescripcion.removeAll();
-		
-		labelImagen = new JLabel("");
-		Image img8 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getImagen();
-		labelImagen.setIcon(new ImageIcon(img8));
-		labelImagen.setHorizontalAlignment(SwingConstants.CENTER);
-		labelImagen.setBounds(10, 67, 275, 300);
-		PanelDescripcion.add(labelImagen);
-		
-		String variable1 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getNombre();
-		labelTitulo = new JLabel(variable1);
-		labelTitulo.setFont(new Font("Tekton Pro", Font.PLAIN, 28));
-		labelTitulo.setBounds(23, 24, 515, 32);
-		PanelDescripcion.add(labelTitulo);
-		
-		String variable2 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getPrecio();
-		labelPrecio = new JLabel(variable2);
-		labelPrecio.setFont(new Font("Tahoma", Font.PLAIN, 34));
-		labelPrecio.setBounds(343, 106, 132, 54);
-		PanelDescripcion.add(labelPrecio);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"S", "M", "L"}));
-		comboBox.setBounds(428, 200, 46, 20);
-		PanelDescripcion.add(comboBox);
-		
-		JLabel lblTalle = new JLabel("Talle");
-		lblTalle.setBounds(343, 203, 46, 14);
-		PanelDescripcion.add(lblTalle);
-		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4"}));
-		comboBox_1.setBounds(428, 251, 47, 20);
-		PanelDescripcion.add(comboBox_1);
-		
-		JLabel lblCantidad = new JLabel("Cantidad");
-		lblCantidad.setBounds(343, 254, 58, 14);
-		PanelDescripcion.add(lblCantidad);
-		
-		JButton btnAtrs_1 = new JButton("Atr\u00E1s");
-		btnAtrs_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				contentPane.removeAll();				
-				contentPane.add(PanelCatalogo);
-				contentPane.repaint();
-				contentPane.revalidate();
-			}
-		});
-		btnAtrs_1.setBounds(10, 368, 89, 23);
-		PanelDescripcion.add(btnAtrs_1);
-		
-		JButton btnComprar = new JButton("Comprar");
-		btnComprar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(miControlador.getModelo().getLogueo()){
-					//if(miControlador.consultarStock(miControlador.getModelo().getNumProducto(),comboBox.getSelectedItem().toString(), comboBox_1.getSelectedItem().toString())){
-						miControlador.getModelo().setTalleProducto(comboBox.getSelectedItem().toString());
-						miControlador.getModelo().setCantidadProducto(comboBox_1.getSelectedItem().toString());
-						actualizarPanelConfirmar();
-						contentPane.removeAll();				
-						contentPane.add(PanelConfirmar);
-						contentPane.repaint();
-						contentPane.revalidate();
-					//}
-					/*else {
-						JOptionPane.showMessageDialog(null, "Por el momento no contamos con el Stock suficiente");
-					}*/
-				}
-				else{
-					contentPane.removeAll();				
-					contentPane.add(PanelNoIngreso);
-					contentPane.repaint();
-					contentPane.revalidate();
-				}
-			}
-		});
-		btnComprar.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnComprar.setBounds(359, 318, 179, 49);
-		PanelDescripcion.add(btnComprar);
-	}
-	
-	public void actualizarPanelConfirmar(){
-		PanelConfirmar.removeAll();
-		
-		JLabel lblUstedEstaPor = new JLabel("Usted esta por comprar :");
-		lblUstedEstaPor.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblUstedEstaPor.setBounds(35, 36, 230, 30);
-		PanelConfirmar.add(lblUstedEstaPor);
-		
-		JLabel label_3 = new JLabel("$");
-		label_3.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		label_3.setBounds(425, 102, 46, 35);
-		PanelConfirmar.add(label_3);
-		
-		JButton btnAtrs_4 = new JButton("Atr\u00E1s");
-		btnAtrs_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				contentPane.removeAll();				
-				contentPane.add(PanelCatalogo);
-				contentPane.repaint();
-				contentPane.revalidate();
-			}
-		});
-		btnAtrs_4.setBounds(10, 368, 89, 23);
-		PanelConfirmar.add(btnAtrs_4);
-		
-		JLabel lblIngreseSuN = new JLabel("Ingrese su N\u00BA de tarjeta de cr\u00E9dito :");
-		lblIngreseSuN.setBounds(35, 212, 201, 14);
-		PanelConfirmar.add(lblIngreseSuN);
-		
-		JLabel lblIngreseLaSucursal = new JLabel("Ingrese la sucursal OCA de destino :");
-		lblIngreseLaSucursal.setBounds(35, 253, 208, 14);
-		PanelConfirmar.add(lblIngreseLaSucursal);
-		
-		txtTarjeta = new JTextField();
-		txtTarjeta.setBounds(256, 209, 174, 20);
-		PanelConfirmar.add(txtTarjeta);
-		txtTarjeta.setColumns(10);
-		
-		JComboBox comboBox_8 = new JComboBox();
-		comboBox_8.setModel(new DefaultComboBoxModel(new String[] {"Sucursal Centro (Cba)", "Sucursal Velez Sarsfield (Cba)", "Sucursal Rio Cuarto", "Sucursal Villa Maria"}));
-		comboBox_8.setBounds(256, 250, 173, 20);
-		PanelConfirmar.add(comboBox_8);
-		
-		JButton btnNewButton_3 = new JButton("Confirmar");
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				miControlador.getModelo().actualizarBaseDeDatos(miControlador.getModelo().getNumProducto(), miControlador.getModelo().getTalleProducto(), miControlador.getModelo().getCantidadProducto());
-				JOptionPane.showMessageDialog(null, "Felicidades!! Su producto estará llegando entre 15/20 días a la sucursal OCA");
-
-				contentPane.removeAll();				
-				contentPane.add(PanelCatalogo);
-				contentPane.repaint();
-				contentPane.revalidate();
-			}
-		});
-		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnNewButton_3.setBounds(407, 330, 140, 47);
-		PanelConfirmar.add(btnNewButton_3);
-		
-		String variable1 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getNombre();
-		textField = new JTextField(variable1);
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField.setBounds(35, 100, 375, 37);
-		PanelConfirmar.add(textField);
-		textField.setColumns(10);
-		
-		String variable2 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getPrecio();
-		textField_1 = new JTextField(variable2);
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		textField_1.setBounds(461, 102, 86, 35);
-		PanelConfirmar.add(textField_1);
-		textField_1.setColumns(10);
-		
-	}
-	
 	public void setControlador(Controlador controlador){
 		miControlador = controlador;
 	}
@@ -832,4 +839,5 @@ public class Interfaz extends JFrame {
 	public Controlador getControlador(){
 		return miControlador;
 	}
+	
 }

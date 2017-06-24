@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -101,16 +102,17 @@ public class Modelo {
 		int tal=0;
 		int cant = Integer.parseInt(cantidad);
 		
-		switch (talle){
-		case "S":
-			tal = 0;
-		case "M":
+		if(talle=="S"){
+			tal= 0;
+		}
+		else if (talle=="M"){
 			tal = 1;
-		case "L":
+		}
+		else if (talle=="L"){
 			tal = 2;
 		}
 		
-		if (cant >= datostock.getUnStock(producto, tal)){
+		if (cant <= datostock.getUnStock(producto, tal)){
 			return true;
 		}
 		else {
@@ -123,14 +125,17 @@ public class Modelo {
 		int cantidad1;
 		int cantidad2 = 0;
 		int cantidad3 = Integer.parseInt(cant);
-		switch (talle){
-		case "S":
-			cantidad2 = 0;
-		case "M":
+		
+		if(talle=="S"){
+			cantidad2= 0;
+		}
+		else if (talle=="M"){
 			cantidad2 = 1;
-		case "L":
+		}
+		else if (talle=="L"){
 			cantidad2 = 2;
 		}
+
 		cantidad1 = datostock.getUnStock(num, cantidad2);
 		cantidad1 = cantidad1 - cantidad3;
 		datostock.setStock(num, cantidad2, cantidad1);
