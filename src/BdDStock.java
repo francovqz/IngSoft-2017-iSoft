@@ -4,11 +4,8 @@ public class BdDStock {
 	private int [][] stock = {{3,3,3}, {3,3,3}, {3,3,3}, {3,3,3}}; //{{3,3,3}, {3,3,3}, {3,3,3}, {3,3,3}};
 	private static BdDStock uniqueInstance = null;
 	
-	/*
-	 * private DatosStock(){ // Patron Singleton 
-	}*/
 	
-	public BdDStock(){
+	private BdDStock(){	// Patron Singleton 
 	}
 	
 	public int[][] getStock(){

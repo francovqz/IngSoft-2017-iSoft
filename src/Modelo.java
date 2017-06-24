@@ -10,7 +10,7 @@ public class Modelo {
 
 	private Controlador miControlador;
 	private List<Usuario> usuarios = new ArrayList<Usuario>();
-	private BdDStock datostock = new BdDStock();
+	private BdDStock datostock;
 	private Boolean estaLogueado = false;
 	private Producto camisetaChelsea;
 	private Producto camisetaLiverpool;
@@ -23,6 +23,7 @@ public class Modelo {
 	public Modelo(){
 		
 		miControlador = new Controlador();
+		datostock = datostock.getInstance();
 		// Inicializo los productos
 		Image img0 = new ImageIcon(getClass().getResource("camisetaa1.png")).getImage();
 		camisetaChelsea = new Producto("Camiseta Chelsea temporada 13/14",img0,"$ 1400");
@@ -93,6 +94,29 @@ public class Modelo {
 	
 	public BdDStock getBaseDeDatos(){
 		return datostock;
+	}
+	
+	public Boolean consultarBaseDeDatos(int producto, String talle, String cantidad){
+		
+		int tal=0;
+		int cant = Integer.parseInt(cantidad);
+		
+		switch (talle){
+		case "S":
+			tal = 0;
+		case "M":
+			tal = 1;
+		case "L":
+			tal = 2;
+		}
+		
+		if (cant >= datostock.getUnStock(producto, tal)){
+			return true;
+		}
+		else {
+			return false;
+		}
+		
 	}
 	
 	public void actualizarBaseDeDatos(int num, String talle, String cant){

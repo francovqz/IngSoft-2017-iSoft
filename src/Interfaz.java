@@ -76,11 +76,8 @@ public class Interfaz extends JFrame {
 	private static JLabel labelTitulo;
 	private static JLabel labelPrecio;
 	
-	
-
 	 /* Create the frame.
 	 */
-	
 	public Interfaz() {
 		
 		miControlador = new Controlador();
@@ -650,7 +647,7 @@ public class Interfaz extends JFrame {
 		                     	break;
 		            case "United":  	nrow = 1;
                  				break;
-		            case "Arsenal": 	nrow = 2;
+		            case "Chelsea": 	nrow = 2;
                  				break;
 		            case "Liverpool":   nrow = 3;
                  				break;
@@ -727,13 +724,18 @@ public class Interfaz extends JFrame {
 		btnComprar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(miControlador.getModelo().getLogueo()){
-					miControlador.getModelo().setTalleProducto(comboBox.getSelectedItem().toString());
-					miControlador.getModelo().setCantidadProducto(comboBox_1.getSelectedItem().toString());
-					actualizarPanelConfirmar();
-					contentPane.removeAll();				
-					contentPane.add(PanelConfirmar);
-					contentPane.repaint();
-					contentPane.revalidate();
+					//if(miControlador.consultarStock(miControlador.getModelo().getNumProducto(),comboBox.getSelectedItem().toString(), comboBox_1.getSelectedItem().toString())){
+						miControlador.getModelo().setTalleProducto(comboBox.getSelectedItem().toString());
+						miControlador.getModelo().setCantidadProducto(comboBox_1.getSelectedItem().toString());
+						actualizarPanelConfirmar();
+						contentPane.removeAll();				
+						contentPane.add(PanelConfirmar);
+						contentPane.repaint();
+						contentPane.revalidate();
+					//}
+					/*else {
+						JOptionPane.showMessageDialog(null, "Por el momento no contamos con el Stock suficiente");
+					}*/
 				}
 				else{
 					contentPane.removeAll();				
@@ -749,6 +751,7 @@ public class Interfaz extends JFrame {
 	}
 	
 	public void actualizarPanelConfirmar(){
+		PanelConfirmar.removeAll();
 		
 		JLabel lblUstedEstaPor = new JLabel("Usted esta por comprar :");
 		lblUstedEstaPor.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -793,20 +796,6 @@ public class Interfaz extends JFrame {
 		JButton btnNewButton_3 = new JButton("Confirmar");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*int cantidad1;
-				int cantidad2 = 0;
-				int cantidad3 = Integer.parseInt(cantidadProducto);
-				switch (talleProducto){
-				case "S":
-					cantidad2 = 0;
-				case "M":
-					cantidad2 = 1;
-				case "L":
-					cantidad2 = 2;
-				}
-				cantidad1 = modelo.getBaseDeDatos().getUnStock(numProducto, cantidad2);
-				cantidad1 = cantidad1 - cantidad3;
-				modelo.getBaseDeDatos().setStock(numProducto, cantidad2, cantidad1);*/
 				miControlador.getModelo().actualizarBaseDeDatos(miControlador.getModelo().getNumProducto(), miControlador.getModelo().getTalleProducto(), miControlador.getModelo().getCantidadProducto());
 				JOptionPane.showMessageDialog(null, "Felicidades!! Su producto estará llegando entre 15/20 días a la sucursal OCA");
 

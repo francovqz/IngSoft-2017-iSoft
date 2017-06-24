@@ -58,5 +58,8 @@ public class Controlador {
 		miModelo.setLogueo(false);
 	}
 	
+	public Boolean consultarStock(int producto, String talle, String cantidad){
+		return miModelo.consultarBaseDeDatos(producto, talle, cantidad);
+	}
 	
 }
