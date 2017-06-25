@@ -93,7 +93,6 @@ public class Interfaz extends JFrame {
 		
 		////////////////////////////////////////// Panel Inicio /////////////////////////////////////////////////////////////////
 		
-		//JPanel PanelInicio = new JPanel();
 		PanelInicio = new JPanel();
 		contentPane.add(PanelInicio, "name_100540470149917");
 		PanelInicio.setLayout(null);
@@ -191,7 +190,6 @@ public class Interfaz extends JFrame {
 			contentPane.revalidate();
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "Ese nombre de usuario ya está en uso");
 			}
 			}
 		});
@@ -568,11 +566,6 @@ public class Interfaz extends JFrame {
 		lblUstedEstaPor.setBounds(35, 36, 230, 30);
 		PanelConfirmar.add(lblUstedEstaPor);
 		
-		JLabel label_3 = new JLabel("$");
-		label_3.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		label_3.setBounds(425, 102, 46, 35);
-		PanelConfirmar.add(label_3);
-		
 		JButton btnAtrs_4 = new JButton("Atr\u00E1s");
 		btnAtrs_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -606,15 +599,21 @@ public class Interfaz extends JFrame {
 		JButton btnNewButton_3 = new JButton("Confirmar");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-	
+				
+				String numTarjeta = txtTarjeta.getText();
+				if(miControlador.chequearTarjeta(numTarjeta)){
 				miControlador.getModelo().actualizarBaseDeDatos(miControlador.getModelo().getNumProducto(), miControlador.getModelo().getTalleProducto(), miControlador.getModelo().getCantidadProducto());
 		
 				JOptionPane.showMessageDialog(null, "Felicidades!! Su producto estará llegando entre 15/20 días a la sucursal OCA");
-
+				
 				contentPane.removeAll();				
 				contentPane.add(PanelCatalogo);
 				contentPane.repaint();
 				contentPane.revalidate();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Ingrese un numero de tarjeta valido");
+				}
 			}
 		});
 		btnNewButton_3.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -826,8 +825,8 @@ public class Interfaz extends JFrame {
 	            case "L": 	ncol = 2;
              				break;
 	            }
+				miControlador.agregarStock(nrow, ncol, dif);
 				table.setValueAt((Integer) dif, nrow, ncol); //test de si la columna es nula
-				miControlador.getModelo().getBaseDeDatos().setStock(nrow, ncol, dif);
 			}
 		});
 		btnActualizarCantidad.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -838,6 +837,10 @@ public class Interfaz extends JFrame {
 	
 	public Controlador getControlador(){
 		return miControlador;
+	}
+	
+	public JTable getTabla(){
+		return table;
 	}
 	
 }

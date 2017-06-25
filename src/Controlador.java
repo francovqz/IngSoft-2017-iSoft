@@ -23,8 +23,11 @@ public class Controlador {
 		return miInterfaz;
 	}
 	
+	
 	public int registrarUsuario(String userr, String passwordd){
 		
+		if(miModelo.validarCampos(userr, passwordd)){
+			
 		if(miModelo.validarUsuario(userr, passwordd)==1){
 			miModelo.agregarUsuario(userr, passwordd);
 			return 1;
@@ -32,6 +35,8 @@ public class Controlador {
 		else {
 			return 0;
 		}
+		}
+		return 0;
 		
 	}
 	
@@ -60,6 +65,19 @@ public class Controlador {
 	
 	public Boolean consultarStock(int producto, String talle, String cantidad){
 		return miModelo.consultarBaseDeDatos(producto, talle, cantidad);
+	}
+	
+	public void agregarStock(int producto, int talle, int cantidad){
+		if (cantidad > 0){
+		miModelo.actualizarBaseDeDatos(producto, talle, cantidad);
+		}
+		else {
+			throw new RuntimeException("La cantidad debe ser positiva");
+		}
+	}
+	
+	public Boolean chequearTarjeta(String numTarjeta){
+		return miModelo.validarTarjeta(numTarjeta);
 	}
 	
 }

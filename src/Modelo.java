@@ -51,9 +51,24 @@ public class Modelo {
 		estaLogueado = true;
 	}
 	
+	public Boolean validarCampos(String user, String password){
+	
+	if (user.length()==0 ){
+		JOptionPane.showMessageDialog(null, "Por favor, ingrese un nombre de usuario valido");
+		return false;
+	}
+	
+	else if(password.length() < 4){
+		JOptionPane.showMessageDialog(null, "La contraseña debe tener mas de 4 caracteres");
+		return false;
+	}
+	return true;
+	}
+	
 	public int validarUsuario(String user, String password){
 		for (Usuario usuario: usuarios){
 			if(user.equals(usuario.getId())){
+				JOptionPane.showMessageDialog(null, "Ese nombre de usuario ya está en uso");
 				return 0;
 			}
 		}
@@ -95,6 +110,10 @@ public class Modelo {
 	
 	public BdDStock getBaseDeDatos(){
 		return datostock;
+	}
+	
+	public List<Usuario> getUsuarios(){
+		return usuarios;
 	}
 	
 	public Boolean consultarBaseDeDatos(int producto, String talle, String cantidad){
@@ -139,6 +158,19 @@ public class Modelo {
 		cantidad1 = datostock.getUnStock(num, cantidad2);
 		cantidad1 = cantidad1 - cantidad3;
 		datostock.setStock(num, cantidad2, cantidad1);
+	}
+	
+	public void actualizarBaseDeDatos(int num, int talle, int cantidad){
+		datostock.setStock(num, talle, cantidad);
+	}
+	
+	public Boolean validarTarjeta(String numTarjeta){
+		if(numTarjeta.matches("[0-9]*")){
+			if (numTarjeta.length() == 8){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void setNumProducto(int i){
