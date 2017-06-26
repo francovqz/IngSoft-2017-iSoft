@@ -57,8 +57,10 @@ public class Controlador {
 	}
 	
 	public void loguearse(){
+
 		miModelo.setLogueo(true);
 	}
+	
 	public void desloguearse(){
 		miModelo.setLogueo(false);
 	}

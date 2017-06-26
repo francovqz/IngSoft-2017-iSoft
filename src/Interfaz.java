@@ -535,7 +535,7 @@ public class Interfaz extends JFrame implements IObserver {
 					if(miControlador.consultarStock(miControlador.getModelo().getNumProducto(),comboBox.getSelectedItem().toString(), comboBox_1.getSelectedItem().toString())){
 						miControlador.getModelo().setTalleProducto(comboBox.getSelectedItem().toString());
 						miControlador.getModelo().setCantidadProducto(comboBox_1.getSelectedItem().toString());
-						actualizarPanelConfirmar();
+						actualizarPanelConfirmar(comboBox_1.getSelectedItem().toString());
 						contentPane.removeAll();				
 						contentPane.add(PanelConfirmar);
 						contentPane.repaint();
@@ -558,7 +558,7 @@ public class Interfaz extends JFrame implements IObserver {
 		PanelDescripcion.add(btnComprar);
 	}
 	
-	public void actualizarPanelConfirmar(){
+	public void actualizarPanelConfirmar(String cantidad){
 		PanelConfirmar.removeAll();
 		
 		JLabel lblUstedEstaPor = new JLabel("Usted esta por comprar :");
@@ -628,6 +628,9 @@ public class Interfaz extends JFrame implements IObserver {
 		textField.setColumns(10);
 		
 		String variable2 = miControlador.getModelo().getProducto(miControlador.getModelo().getNumProducto()).getPrecio();
+		String variable3 = variable2.substring(2);
+		int i = Integer.parseInt(variable3) * Integer.parseInt(cantidad);
+		variable2 = "$ " + Integer.toString(i);
 		textField_1 = new JTextField(variable2);
 		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		textField_1.setBounds(461, 102, 86, 35);
