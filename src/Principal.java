@@ -23,6 +23,8 @@ public class Principal {
 		miControlador.setInterfaz(miInterfaz);
 		miControlador.setModelo(miModelo);
 		
+		miModelo.addObserver(miInterfaz);
+		
 		miInterfaz.setVisible(true);
 	}
 }

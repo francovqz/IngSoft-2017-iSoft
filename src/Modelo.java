@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
-public class Modelo {
+public class Modelo implements ISubject{
 
 	private Controlador miControlador;
 	private List<Usuario> usuarios = new ArrayList<Usuario>();
@@ -20,6 +20,8 @@ public class Modelo {
 	private int numProducto = 0;
 	private String talleProducto;
 	private String cantidadProducto;
+	
+	private List<IObserver> observers = new ArrayList<IObserver>();
 	
 	public Modelo(){
 		
@@ -158,10 +160,12 @@ public class Modelo {
 		cantidad1 = datostock.getUnStock(num, cantidad2);
 		cantidad1 = cantidad1 - cantidad3;
 		datostock.setStock(num, cantidad2, cantidad1);
+		notificar();
 	}
 	
 	public void actualizarBaseDeDatos(int num, int talle, int cantidad){
 		datostock.setStock(num, talle, cantidad);
+		notificar();
 	}
 	
 	public Boolean validarTarjeta(String numTarjeta){
@@ -203,5 +207,23 @@ public class Modelo {
 	
 	public Boolean getLogueo(){
 		return estaLogueado;
+	}
+
+	@Override
+	public void addObserver(IObserver observer) {
+		observers.add(observer);
+		
+	}
+
+	@Override
+	public void removeObserver(IObserver observer) {
+		observers.remove(observer);
+		
+	}
+	
+	private void notificar(){
+		for(IObserver observer : observers){
+			observer.update();
+		}
 	}
 }
