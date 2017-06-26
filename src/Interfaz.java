@@ -49,7 +49,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Interfaz extends JFrame {
+public class Interfaz extends JFrame implements IObserver {
 
 	private Controlador miControlador;
 	
@@ -257,7 +257,7 @@ public class Interfaz extends JFrame {
 					contentPane.revalidate();
 				}
 				else if(miControlador.probarPass(user, password)==2){
-					actualizarPanelAdmin();
+					update();
 					contentPane.removeAll();				
 					contentPane.add(PanelAdmin);
 					contentPane.repaint();
@@ -636,7 +636,20 @@ public class Interfaz extends JFrame {
 		
 	}
 	
-	public void actualizarPanelAdmin(){
+	public void setControlador(Controlador controlador){
+		miControlador = controlador;
+	}
+	
+	public Controlador getControlador(){
+		return miControlador;
+	}
+	
+	public JTable getTabla(){
+		return table;
+	}
+
+	@Override
+	public void update() {
 		PanelAdmin.removeAll();
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -830,17 +843,7 @@ public class Interfaz extends JFrame {
 			}
 		});
 		btnActualizarCantidad.setFont(new Font("Tahoma", Font.PLAIN, 14));
-	}
-	public void setControlador(Controlador controlador){
-		miControlador = controlador;
-	}
-	
-	public Controlador getControlador(){
-		return miControlador;
-	}
-	
-	public JTable getTabla(){
-		return table;
+		
 	}
 	
 }

@@ -67,7 +67,7 @@ public class IntegracionTest {
 		interfaz.setControlador(controlador);
 		
 		controlador.agregarStock(2, 0, 7);
-		interfaz.actualizarPanelAdmin();
+		interfaz.update();
 		assertEquals(interfaz.getTabla().getValueAt(2,0), 7);
 	}
 	
